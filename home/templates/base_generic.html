@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles2.css' %}">
+    {% block stylingFiles %}{% endblock %}
+    <title>{% block title %}{% endblock %} | PaSSS</title>
+
+  </head>
+  <body>
+      
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          {% load static %}
+          <img src="{% static 'images/Logo.jpg' %}" width="50" height="50" class="d-inline-block align-top" alt="">
+          <span id="logoTitle">Pandemic Support Services by Students</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'training' %}">Training Materials</a>
+            </li>
+            {% if user.is_authenticated %}
+            {% if perms.home.is_staff %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'allpatients' %}">All Patients</a>
+              </li>
+            {% else %}  
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'mypatients' %}">Patient List</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'patient_create' %}">Add Patient</a>
+              </li>
+            {% endif %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+            </li>
+          {% else %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'register' %}?next={{request.path}}">Sign up</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'login' %}">Log in</a>
+            </li>
+          {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid" id="superman">
+        <div class="row welcome text-center">
+          <div class="col-12">
+            <h1 class="display-4" id="mainHeading">
+              {% block heading %}
+              {% endblock %}
+            </h1>
+          </div>
+        </div>
+          {% block content %}
+          {% endblock %}
+            {% block pagination %}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+  {% endblock %} 
+      </div>
+
+      <!-- Footer -->
+      <footer class="container-fluid text-center">
+        <div class="row">
+          <div class="col-12 text-center">
+            A Kerala University of Health Sciences Initiative
+          </div>
+        </div>
+      </footer>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>

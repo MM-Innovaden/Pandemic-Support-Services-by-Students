@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block heading %}
+Patient Details
+{% endblock %}
+
+{% block content %}
+
+  <p><strong>Name:</strong>{{ patient.name }}</p> <!-- author detail link not yet defined -->
+  <p><strong>Age:</strong> {{ patient.age }}</p>
+  <p><strong>Address:</strong> {{ patient.address }}</p> 
+  <p><strong>Phone number:</strong> {{ patient.phone_number }}</p>  
+  <p><strong>Date contacted:</strong> {{ patient.date_contacted }}</p>
+
+{% endblock %}

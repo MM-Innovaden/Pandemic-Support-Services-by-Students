@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+
+{% block stylingFiles %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+
+{% block heading %}
+All Patients
+{% endblock %}
+
+{% block content %}
+
+    {% if patient_list %}
+    <ul id="list">
+
+      {% for patient in patient_list %} 
+      <li class="">
+        <a href="{{ patient.get_absolute_url }}">{{patient.name}}</a> - {{ patient.date_contacted }} - {{ patient.outcome }} - {{ patient.contacted_by }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>You've not added any patients yet.</p>
+    {% endif %}       
+{% endblock %}
